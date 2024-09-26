@@ -72,6 +72,13 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = (req, res) => {
-    // Logout logic here
-    res.send("User logged out");
+    try {
+        res.clearCookie("acces_token")
+
+        res.status(200).json({
+            message: "User has been logged out successfully!"
+        })
+    } catch (error) {
+        next(error)
+    }
 };
