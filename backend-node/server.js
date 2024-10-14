@@ -2,25 +2,25 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
+import { server,app } from "./socket/socket.js"
 dotenv.config()
 
 mongoose.connect(process.env.MONGO_URI)
     .then(()=>{
-        console.log("Connected to Mongodb");        
+        console.log("Connected to Mongodb")      
     })
     .catch((err)=>{
-        console.log(err);        
-    });
+        console.log(err)       
+    })
 
-const app = express()
 const PORT = process.env.PORT || 3000
 
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json())
+app.use(cookieParser())
 
 app.get("/",(req,res)=>{
-    res.send("Hello World!");
-});
+    res.send("Hello World!")
+})
 
 //import routes
 import authRoutes from "./routes/auth.routes.js"
@@ -31,7 +31,7 @@ app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoutes)
 app.use("/api/users",userRoutes)
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log("Server is running on port " + PORT)
 })
 
